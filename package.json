@@ -9,7 +9,7 @@
     "start:api": "node src/api-parser.js",
     "dev:ui": "nodemon src/puppeteer.js",
     "lint": "eslint .",
-    "lint:fix": "eslint src/**/*.js --fix",
+    "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "clean": "node src/scripts/clean_results.js"
   },
@@ -21,8 +21,10 @@
     "puppeteer": "^24.35.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.0.0",
     "nodemon": "^3.1.11",
     "prettier": "^3.7.4"
   },
