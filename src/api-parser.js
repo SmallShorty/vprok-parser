@@ -73,7 +73,7 @@ async function parseVprok(url) {
           `Акционная цена: ${hasDiscount ? p.price + ' руб.' : 'нет'}`,
           `Цена до акции: ${hasDiscount ? p.oldPrice + ' руб.' : 'нет'}`,
           `Размер скидки: ${hasDiscount ? p.discountPercent + '%' : 'нет'}`,
-          `---------------------------`,
+          '---------------------------',
         ].join('\n');
       })
       .join('\n');
