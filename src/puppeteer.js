@@ -13,13 +13,8 @@ async function run() {
   }
 
   const browser = await puppeteer.launch({
-    headless: 'new',
-    args: [
-      '--disable-blink-features=AutomationControlled',
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--window-size=1440,900',
-    ],
+    headless: false,
+    args: ['--start-maximized'],
   });
 
   const page = await browser.newPage();
@@ -29,6 +24,8 @@ async function run() {
 
   await page.exposeFunction('parseNumber', parseNumber);
   await page.exposeFunction('autoScroll', autoScroll);
+
+  await page.setViewport({ width: 1440, height: 900 });
 
   try {
     console.log(`[INFO] Navigating to: ${url}`);
@@ -40,6 +37,15 @@ async function run() {
       visible: true,
       timeout: 30000,
     });
+
+    // Проверка на пустую страницу
+    const emptyPageSelector = '.UiLayoutPageEmpty_root__KYPID';
+    const isEmpty = await page.evaluate((sel) => !!document.querySelector(sel), emptyPageSelector);
+
+    if (isEmpty) {
+      console.log('[WARNING] Page is empty (404 or No Products). Saving empty results.');
+      return; 
+    }
 
     // Закрытие всплывающих оконов
     console.log('[INFO] Cleaning up UI...');
@@ -180,7 +186,7 @@ async function run() {
   } catch (err) {
     console.error(`[ERROR] ${err.message}`);
   } finally {
-    await browser.close();
+    // await browser.close();
     console.log('[INFO] Browser closed.');
   }
 }
