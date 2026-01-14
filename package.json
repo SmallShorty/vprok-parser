@@ -10,7 +10,8 @@
     "dev:ui": "nodemon src/puppeteer.js",
     "lint": "eslint .",
     "lint:fix": "eslint src/**/*.js --fix",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "clean": "node src/scripts/clean_results.js"
   },
   "keywords": [],
   "author": "",
