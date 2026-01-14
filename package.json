@@ -1,0 +1,28 @@
+{
+  "name": "vprok-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:ui": "node src/puppeteer.js",
+    "start:api": "node src/api-parser.js",
+    "dev:ui": "nodemon src/puppeteer.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "puppeteer": "^24.35.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "nodemon": "^3.1.11",
+    "prettier": "^3.7.4"
+  }
+}
