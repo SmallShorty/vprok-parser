@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 
 function cleanResults() {
-  const resultsDir = path.join(__dirname, '..', 'results');
+  const resultsDir = path.join(process.cwd(), 'results');
+
+  console.log(`[DEBUG] Target path: ${resultsDir}`);
 
   if (!fs.existsSync(resultsDir)) {
     console.log('[INFO] Directory "results" does not exist. Skipping cleanup.');
