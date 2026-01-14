@@ -13,8 +13,13 @@ async function run() {
   }
 
   const browser = await puppeteer.launch({
-    headless: false,
-    args: ['--start-maximized'],
+    headless: 'new',
+    args: [
+      '--disable-blink-features=AutomationControlled',
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--window-size=1440,900',
+    ],
   });
 
   const page = await browser.newPage();
