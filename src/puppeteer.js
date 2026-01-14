@@ -44,38 +44,53 @@ async function run() {
 
     if (isEmpty) {
       console.log('[WARNING] Page is empty (404 or No Products). Saving empty results.');
-      return; 
+      return;
     }
 
-    // Закрытие всплывающих оконов
-    console.log('[INFO] Cleaning up UI...');
+    // Закрытие всплывающих окон и соглашений
+    console.log('[INFO] Cleaning up UI (Popups & Cookies)...');
     await page.keyboard.press('Escape'); // Закрывает модалку на весь экран
 
-    // Тултип с подключением карты
+    // Селекторы для тултипов и куки
     const tooltipSelector = '[class*="Tooltip_root"]';
     const closeBtnSelector = 'button[class*="Tooltip_closeIcon"]';
+    const cookieAgreeBtnSelector = '.CookiesAlert_agreeButton__cJOTA button';
+    const cookiePanelSelector = '.CookiesAlert_policy__1ClsP';
 
     try {
-      await page.waitForSelector(tooltipSelector, { timeout: 1000 });
+      await page.waitForSelector(`${tooltipSelector}, ${cookiePanelSelector}`, { timeout: 2000 });
     } catch (e) {}
+
     await page.evaluate(
-      (btnSel, rootSel) => {
+      (btnSel, rootSel, cookieBtnSel, cookiePanelSel) => {
+        const cookieBtn = document.querySelector(cookieBtnSel);
+        const cookiePanel = document.querySelector(cookiePanelSel);
+
+        if (cookieBtn) {
+          cookieBtn.click();
+        }
+
+        // 2. Обработка тултипов
         const btn = document.querySelector(btnSel);
         const root = document.querySelector(rootSel);
 
         if (btn) {
           btn.click();
-          setTimeout(() => {
-            if (document.body.contains(root)) root.remove();
-          }, 100);
-        } else if (root) {
-          root.remove();
         }
+
+        setTimeout(() => {
+          if (cookiePanel) cookiePanel.remove();
+          if (root) root.remove();
+        }, 200);
       },
       closeBtnSelector,
-      tooltipSelector
+      tooltipSelector,
+      cookieAgreeBtnSelector,
+      cookiePanelSelector
     );
 
+    // Даем небольшую паузу на завершение анимаций скрытия
+    await new Promise((r) => setTimeout(r, 500));
     console.log('[INFO] UI Cleaned.');
 
     console.log(`[INFO] Changing region to: ${regionName}`);
